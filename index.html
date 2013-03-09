@@ -6,9 +6,7 @@
   </head>
   <body style="background-color:black; color: white">
       <script src="http://ondras.github.com/rot.js/rot.js"></script>
-      <script>
-
-      </script>
+      <script src="PP.js"></script>
       <script src="saveload.js"></script>
       <script src="keyboard.js"></script>
       <script>      
@@ -35,7 +33,7 @@
           PP.display.drawText( 5 ,  2 , "Project Pandora" );
           var list = PP.save.list();
           list.forEach( function( v,i){ PP.display.drawText( 5 ,  10+i , v );  });
-          
+          PP.kb.next = PP.load();
         }
     </script>
   </body>
