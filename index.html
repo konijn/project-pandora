@@ -27,6 +27,7 @@
           }
           return list;
         }
+        PP.kb = { next : {} , listening : false }; //Keyboard
         
         //Are we ready for some ROT times ?
         if( !ROT.isSupported() )
@@ -36,10 +37,29 @@
           
         function start()
         {
+          //Display
           if( !PP.display )
           {
             PP.display = new ROT.Display({width:80, height:50});
             document.body.appendChild( PP.display.getContainer() );
+          }
+          //Keyboard
+          if( !PP.kb.listening )
+          {
+            document.addEventListener("keydown", function(e) 
+            {
+              var code = e.keyCode;
+              var vk = "?"; /* find the corresponding constant */
+              for (var name in ROT) 
+              {
+                if (ROT[name] == code && name.indexOf("VK_") == 0) { vk = name; }
+              }
+              console.log( "Keydown: code is " + code + " (" + vk + ")";
+              if( pp.kb.next )
+              {
+                pp.kb.next( code, vk );
+              }
+            });
           }
           PP.display.drawText( 5 ,  2 , "Project Pandora" );
           var list = PP.save.list();
