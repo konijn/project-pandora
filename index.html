@@ -5,12 +5,29 @@
     <title>Project Purgatory</title>
   </head>
   <body style="background-color:black; color: white">
-    <h1>Hello World</h1>
-      <p>
-        Konijn was here ;)
-      </p>
       <script src="http://ondras.github.com/rot.js/rot.js"></script>
       <script>
+        //One global to rule them all
+        PP = {};
+        PP.save = {};
+        PP.save.list = function()
+        {
+          var count  = 5;
+          var list = [];
+          for( var i = 0 ; i < count ; i++ )
+          {
+            if(!localStorage["save"+i])
+            {
+              list.push( (i+1) + ") New Game")
+            }
+            else
+            {
+              list.push( (i+1) + ") " + JSON.parse( "save"+i ).description )
+            }
+            return list;
+          }
+        }
+        
         //Are we ready for some ROT times ?
         if( !ROT.isSupported() )
           alert( "This game will not run on your 'browser'" );
@@ -19,8 +36,15 @@
           
         function start()
         {
-          var display = new ROT.Display({width:80, height:50});
-          document.body.appendChild( display.getContainer() );
+          if( !PP.display )
+          {
+            PP.display = new ROT.Display({width:80, height:50});
+            document.body.appendChild( PP.display.getContainer() );
+          }
+          display.drawText( 5 ,  2 , "Project Pandora" );
+          var list = PP.save.list();
+          list.forEach( function( v,i){ display.drawText( 5 ,  10+i , v );  });
+          
         }
     </script>
   </body>
