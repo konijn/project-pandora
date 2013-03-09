@@ -27,7 +27,7 @@
           }
           return list;
         }
-        PP.kb = { next : {} , listening : false }; //Keyboard
+        PP.kb = { listening : false }; //Keyboard
         
         //Are we ready for some ROT times ?
         if( !ROT.isSupported() )
@@ -60,6 +60,7 @@
                 PP.kb.next( code, vk );
               }
             });
+            PP.kb.listening = true;
           }
           PP.display.drawText( 5 ,  2 , "Project Pandora" );
           var list = PP.save.list();
