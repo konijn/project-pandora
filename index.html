@@ -11,6 +11,7 @@
         PP = {};
       </script>
       <script src="saveload.js"></script>
+      <script src="keyboard.js"></script>
       <script>      
         PP.kb = { listening : false }; //Keyboard
         
@@ -31,21 +32,7 @@
           //Keyboard
           if( !PP.kb.listening )
           {
-            document.addEventListener("keydown", function(e) 
-            {
-              var code = e.keyCode;
-              var vk = "?"; /* find the corresponding constant */
-              for (var name in ROT) 
-              {
-                if (ROT[name] == code && name.indexOf("VK_") == 0) { vk = name; }
-              }
-              console.log( "Keydown: code is " + code + " (" + vk + ")" );
-              if( PP.kb.next )
-              {
-                PP.kb.next( code, vk );
-              }
-            });
-            PP.kb.listening = true;
+            PP.kb.listen();
           }
           PP.display.drawText( 5 ,  2 , "Project Pandora" );
           var list = PP.save.list();
