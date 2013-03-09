@@ -10,5 +10,18 @@
         Konijn was here ;)
       </p>
       <script src="http://ondras.github.com/rot.js/rot.js"></script>
+        //Are we ready for some ROT times ?
+        if( !ROT.isSupported() )
+          alert( "This game will not run on your 'browser'" );
+        else
+          start();
+          
+        function start()
+        {
+          var display = new ROT.Display({width:80, height:50});
+          document.body.appendChild( isplay.getContainer() );
+        }
+      <script>
+</script>
   </body>
 </html>
