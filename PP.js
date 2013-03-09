@@ -15,7 +15,7 @@ PP = {
     PP.plageGame();
   },
 
-  playGame : function
+  playGame : function()
   {
     PP.display.clear();  
     ROT.RNG.setSeed( PP.game.seed );
