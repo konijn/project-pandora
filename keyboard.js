@@ -12,10 +12,10 @@ PP.kb.listen = function()
       {
         if (ROT[name] == code && name.indexOf("VK_") == 0) { vk = name; }
       }
-      console.log( "Keydown: code is " + code + " (" + vk + ")" );
+      console.log( "Keydown: code is " + code + "(  " + String.fromCharCode(code) + "  ) , (" + vk + ")" );
       if( PP.kb.next )
       {
-        PP.kb.next( code, vk );
+        PP.kb.next( code , String.fromCharCode(code) , vk );
       }
     });
     PP.kb.listening = true;
