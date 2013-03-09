@@ -12,7 +12,7 @@ PP = {
     PP.game.level = 1;
     PP.game.n = n;
     PP.save.store();
-    PP.plageGame();
+    PP.playGame();
   },
 
   playGame : function()
