@@ -7,10 +7,12 @@ PP = {
   newGame : function(n)
   {
     PP.game = {};
-    PP.game.description = 'Save game ' + (n++)
+    PP.game.description = 'Save game ' + (++n)
     PP.game.seed = Math.floor(Math.random()*100000000);
     PP.game.level = 1;
+    PP.game.n = n;
     PP.save.store();
+    PP.plageGame();
   },
 
   playGame : function
