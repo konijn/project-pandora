@@ -23,6 +23,8 @@ PP.save.list = function()
 //This is expected to be called by a key handler, by the way ;)
 PP.load = function( code , char , vk )
 {
+  if(!vk)
+    return;
   //Derive the key press, either numpad or top key
   var n = vk.substr(-1) * 1;
   //Between 1 and 5?
