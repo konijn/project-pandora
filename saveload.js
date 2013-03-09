@@ -48,10 +48,10 @@ PP.load = function( code , char , vk )
   if( !( n > 0 && n < 6  ) )
     return;
   //Get it
-  var s = localStorage[ PP.save.key( n - 1 ) ];
+  var s = localStorage[ PP.save.key( --n ) ];
   if(!s)
   {
-    return PP.newGame();
+    return PP.newGame( n );
   }
   else
   {
