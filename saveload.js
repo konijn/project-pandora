@@ -18,7 +18,7 @@ PP.save = {
       }
     }
   return list;
-  }
+  },
   //Store the game in progress,
   //Should be done when the game starts and when a new level is reached
   //Highly save scummable in other words
@@ -26,7 +26,7 @@ PP.save = {
   {
     s = JSON.stringify( PP.game );
     localStorage[ PP.save.key( PP.game.n -  1 ) ] = s;  
-  }
+  },
 
   key : function( n )
   {
@@ -39,6 +39,7 @@ PP.save = {
 //This is expected to be called by a key handler, by the way ;)
 PP.load = function( code , char , vk )
 {
+  //Justified Paranoia
   if(!vk)
     return;
   //Derive the key press, either numpad or top key
