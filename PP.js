@@ -18,17 +18,11 @@ PP = {
   playGame : function()
   {
     PP.display.clear();  
-    ROT.RNG.setSeed( PP.game.seed );
+    ROT.RNG.setSeed( PP.game.seed * PP.game.level );
     PP.map = new ROT.Map.Uniform( PP.width , PP.height , { roomDugPercentage : 0.95  } );
-    //PP.map.create(PP.display.DEBUG);
+    //Write out the map
     PP.map.create( function(x,y,type)
     {    
-      //console.log(arguments);
-      //console.log(arguments.length);
-      //console.log(arguments.callee);
-      //for( var i = 0 ; i < arguments.length ; i++ )      
-      //  console.log( arguments[ i ] );
-      console.log( JSON.stringify(arguments)  );
       PP.display.draw( x , y , type?"#":" " );
     });
     PP.rooms = PP.map.getRooms();
