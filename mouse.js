@@ -1,5 +1,4 @@
 
-
 PP.mouse = {
 
   listening : false,
@@ -12,6 +11,7 @@ PP.mouse = {
       {
         var x = Math.floor(  ( e.x - this.offsetLeft ) /  (  this.width / PP.width  )  );
         var y = Math.floor(  ( e.y - this.offsetTop ) /  (  this.height / PP.height  )  );
+        console.log( "Clicked: (" , x , "," , y , ")" );
         if( PP.mouse.next )
         {
           PP.mouse.next( x , y , e );
