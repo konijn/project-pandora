@@ -23,11 +23,12 @@ PP = {
     //PP.map.create(PP.display.DEBUG);
     PP.map.create( function()
     {    
-      console.log(arguments);
-      console.log(arguments.length);
-      console.log(arguments.callee);
-      for( var i = 0 ; i < arguments.length ; i++ )      
-        console.log( arguments[ i ] );
+      //console.log(arguments);
+      //console.log(arguments.length);
+      //console.log(arguments.callee);
+      //for( var i = 0 ; i < arguments.length ; i++ )      
+      //  console.log( arguments[ i ] );
+      console.log( JSON.stringify(arguments)  );
     });
     PP.rooms = PP.map.getRooms();
     PP.corridors = PP.map.getCorridors();
