@@ -1,4 +1,3 @@
-
 PP.mouse = {
 
   listening : false,
@@ -16,7 +15,7 @@ PP.mouse = {
         {
           PP.mouse.next( x , y , e );
         }
-      }
+      });
       PP.mouse.listening = true;
     }
   }
