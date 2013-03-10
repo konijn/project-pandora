@@ -21,7 +21,7 @@ PP = {
     ROT.RNG.setSeed( PP.game.seed );
     PP.map = new ROT.Map.Uniform( PP.width , PP.height , { roomDugPercentage : 0.95  } );
     //PP.map.create(PP.display.DEBUG);
-    PP.map.create( function()
+    PP.map.create( function(x,y,type)
     {    
       //console.log(arguments);
       //console.log(arguments.length);
@@ -29,6 +29,7 @@ PP = {
       //for( var i = 0 ; i < arguments.length ; i++ )      
       //  console.log( arguments[ i ] );
       console.log( JSON.stringify(arguments)  );
+      PP.display.draw( x , y , type?"#":"." );
     });
     PP.rooms = PP.map.getRooms();
     PP.corridors = PP.map.getCorridors();
