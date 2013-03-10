@@ -26,11 +26,9 @@
             PP.display = new ROT.Display({width:80, height:50});
             document.body.appendChild( PP.display.getContainer() );
           }
-          //Keyboard
-          if( !PP.kb.listening )
-          {
-            PP.kb.listen();
-          }
+          //Keyboard & Mouse
+          PP.kb.listen();
+          PP.mouse.listen();
           PP.display.drawText( 5 ,  2 , "%c{red}Project Purgatory" );
           var list = PP.save.list();
           list.forEach( function( v,i){ PP.display.drawText( 5 ,  10+i , v );  });
