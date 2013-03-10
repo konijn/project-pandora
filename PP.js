@@ -29,7 +29,7 @@ PP = {
       //for( var i = 0 ; i < arguments.length ; i++ )      
       //  console.log( arguments[ i ] );
       console.log( JSON.stringify(arguments)  );
-      PP.display.draw( x , y , type?"#":"." );
+      PP.display.draw( x , y , type?"#":" " );
     });
     PP.rooms = PP.map.getRooms();
     PP.corridors = PP.map.getCorridors();
