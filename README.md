@@ -1,4 +1,5 @@
 project-pandora
 ===============
 
-Project Pandora
+Project Pandora, 2013 7drl
+7drl's are hard :/
