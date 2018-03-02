@@ -10,14 +10,16 @@ PP.kb = {
       {
         var code = e.keyCode;
         var vk = "?"; /* find the corresponding constant */
+        e.stopPropagation();
+        e.preventDefault();
         for (var name in ROT) 
         {
           if (ROT[name] == code && name.indexOf("VK_") == 0) { vk = name; }
         }
         console.log( "Keydown: code is " + code + "(  " + String.fromCharCode(code) + "  ) , (" + vk + ")" );
-        if( PP.kb.next )
+        if(!PP.controller.handled(code, String.fromCharCode(code), vk, e) && PP.kb.next)
         {
-          PP.kb.next( code , String.fromCharCode(code) , vk );
+          PP.kb.next(code, String.fromCharCode(code), vk, e);
         }
       });
       PP.kb.listening = true;

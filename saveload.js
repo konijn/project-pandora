@@ -22,22 +22,25 @@ PP.save = {
   //Store the game in progress,
   //Should be done when the game starts and when a new level is reached
   //Highly save scummable in other words
-  store : function()
+  store : function store()
   {
     s = JSON.stringify( PP.game );
     localStorage[ PP.save.key( PP.game.n -  1 ) ] = s;  
   },
-
+  //Logic for save game naming is centralized here
   key : function( n )
   {
     return "save" + n; 
+  },
+  //We are not falling again in backwards compatible savegames for throw-away projects
+  clear: function saveClear(){
+    (5).loop(i => localStorage.removeItem(PP.save.key(i)));
   }
-
 }
 
 //Load a game, or start a game
 //This is expected to be called by a key handler, by the way ;)
-PP.load = function( code , char , vk )
+PP.load = function load( code , char , vk )
 {
   //Justified Paranoia
   if(!vk)
