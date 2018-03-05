@@ -61,9 +61,11 @@ Array.prototype.shuffle = function ArrayShuffle(){
   return this;
 }
 
+/*
 Array.prototype.random = function ArrayRandom(){
   return this[Math.floor(Math.random() * this.length)];
 }
+*/
 
 
 String.prototype.set = function StringSet(index, replacement) {

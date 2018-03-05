@@ -16,7 +16,7 @@ PP.kb = {
         {
           if (ROT[name] == code && name.indexOf("VK_") == 0) { vk = name; }
         }
-        console.log( "Keydown: code is " + code + "(  " + String.fromCharCode(code) + "  ) , (" + vk + ")" );
+        log(DEBUG, "Keydown: code is " + code + "(  " + String.fromCharCode(code) + "  ) , (" + vk + ")" );
         if(!PP.controller.handled(code, String.fromCharCode(code), vk, e) && PP.kb.next)
         {
           PP.kb.next(code, String.fromCharCode(code), vk, e);

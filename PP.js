@@ -1,7 +1,8 @@
 //One global to rule them all
 //rot.js http://ondras.github.io/rot.js/doc/
 //
-PP = {
+"use strict"
+var PP = {
 
   width: 80,
   height: 50,
@@ -29,6 +30,7 @@ PP = {
     PP.rooms = PP.map.getRooms();
     PP.corridors = PP.map.getCorridors();
     PP.drawGame();
+    PP.kb.next = PP.player.control;
   },
 
   drawGame : function drawGame(){
@@ -44,7 +46,11 @@ PP = {
   place : function place(visitor){
     PP.getCell(visitor.col,visitor.row).visitor = visitor;
   },
-
+  
+  remove: function remove(visitor){ //ANNOYANCE, delete should be a thing
+    PP.getCell(visitor.col,visitor.row).visitor = null;
+  },
+  
   getCell: function getCell(col,row){
     return PP.tiles[row*PP.width+col];
   },
@@ -56,7 +62,9 @@ PP = {
   scaffold: function scaffold(){
     if(!PP.game.player){
       let spot = PP.tiles.filter(cell=>cell.type===0).random();
-      PP.game.player = {col: spot.col, row:spot.row, c:'@',color:Color.map('W')};
+      PP.game.player = PP.player.scaffold();
+      PP.game.player.col = spot.col;
+      PP.game.player.row = spot.row;
     }
     PP.place(PP.game.player);
   }
