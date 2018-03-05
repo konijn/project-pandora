@@ -12,10 +12,10 @@ features =
   {
     Object.assign(this, bag);
   },
-  addBase : function(c, color, blocksLight, walkable, description)
+  addBase : function(c, color, passesLight, walkable, description)
   {
     color = Color.map(color);
-    this[c] = this[this.length] = new this.Feature({c, color, blocksLight, walkable, description,id:this.length++});
+    this[c] = this[this.length] = new this.Feature({c, color, passesLight, walkable, description,id:this.length++});
     return this; 
   },
   init : function()
@@ -27,8 +27,8 @@ features =
     return this;
   }
 }.init()
-.addBase(" " , "w" , PASSES_LIGHT, LIKE_FLOOR, "Void")
-.addBase("#" , "w" , BLOCKS_LIGHT, LIKE_WALLS, "Wall")
+.addBase("." , "w" , PASSES_LIGHT, LIKE_FLOOR, "Void")
+.addBase("#" , "w" , BLOCKS_LIGHT, LIKE_WALLS, "Wall") /*░▒▓*/
 .addBase("." , "w" , PASSES_LIGHT, LIKE_FLOOR, "Floor")
 .addBase(";" , "w" , PASSES_LIGHT, LIKE_FLOOR, "Glyph of Warding")
 .addBase("'" , "m" , PASSES_LIGHT, LIKE_FLOOR, "Open door")

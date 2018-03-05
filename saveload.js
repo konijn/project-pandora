@@ -24,6 +24,7 @@ PP.save = {
   //Highly save scummable in other words
   store : function store()
   {
+    PP.game.tiles = PP.tiles;
     s = JSON.stringify( PP.game );
     localStorage[ PP.save.key( PP.game.n -  1 ) ] = s;  
   },

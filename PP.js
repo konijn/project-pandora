@@ -23,8 +23,8 @@ var PP = {
     PP.display.clear();  
     ROT.RNG.setSeed( PP.game.seed * PP.game.level );
     PP.map = new ROT.Map.Uniform( PP.width , PP.height , { roomDugPercentage : 0.95  } );
-    PP.tiles = [];
-    PP.map.create(PP.setCell);
+    PP.tiles = PP.game.tiles || [];
+    PP.map.create(PP.scaffoldCell);
     PP.scaffold();
     log(DEBUG, PP.map);
     PP.rooms = PP.map.getRooms();
@@ -35,12 +35,30 @@ var PP = {
 
   drawGame : function drawGame(){
     PP.display.clear();
-    PP.map.create( function(col,row)
-    {
+    //lightpasses callback
+    function lightPasses(col, row) {
+      let cell = PP.getCell(col, row);
+      return cell?features[cell.type].passesLight:false;
+    }
+    //Set fov
+    let fov = new ROT.FOV.PreciseShadowcasting(lightPasses);
+
+    fov.compute(PP.game.player.col , PP.game.player.row, 15, function(col, row, r, visibility) {
       let cell = PP.tiles[row*PP.width+col],
           feature = cell.visitor || features[cell.type];
+      //var color = (data[x+","+y] ? "#aa0": "#660");
+      //display.draw(x, y, ch, "#fff", color);
       PP.display.draw( col , row , feature.c, feature.color );
+      cell.seen = true;
     });
+
+    PP.map.create( function(col,row){
+      let cell = PP.tiles[row*PP.width+col],
+          feature = cell.visitor || features[cell.type];
+      if(cell.seen)
+        PP.display.draw( col , row , feature.c, feature.color );
+    });
+
   },
 
   place : function place(visitor){
@@ -57,6 +75,11 @@ var PP = {
   
   setCell: function getCell(col, row, type){
     PP.tiles[row*PP.width+col] = {type, row, col};
+  },
+
+  scaffoldCell: function scaffoldCell(col, row, type){
+    if(!PP.getCell(col,row))
+      PP.setCell(col, row, type);
   },
   
   scaffold: function scaffold(){
