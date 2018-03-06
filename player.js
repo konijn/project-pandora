@@ -2,7 +2,7 @@
 
 PP.player = {
   scaffold: function scaffold(){
-    return {c:'@', color:Color.map('W')}
+    return Object.assign(PP.player,{c:'@', color:Color.map('W')});
   },
   control: function control(code , codeString, vk, e){
     let player = PP.player,
@@ -32,10 +32,10 @@ PP.player = {
       return false;
     let feature = features[cell.type];
     if(feature.walkable == LIKE_FLOOR || PP.wizard.walking){
-      PP.remove(player); 
-      player.col += dCol; 
-      player.row += dRow; 
-      PP.place(player); 
+      PP.remove(player);
+      player.col += dCol;
+      player.row += dRow;
+      PP.place(player);
       return true;
     }
   }

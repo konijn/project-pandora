@@ -1,17 +1,17 @@
 //One global to rule them all
 //rot.js http://ondras.github.io/rot.js/doc/
 //
-"use strict"
+"use strict";
 var PP = {
 
-  width: 250,
+  width: 80,
   height: 50,
   radius: 15, //Visibility radius
 
   newGame : function(n)
   {
     PP.game = {};
-    PP.game.description = 'Save game ' + (++n)
+    PP.game.description = 'Save game ' + (++n);
     PP.game.seed = Math.floor(Math.random()*100000000);
     PP.game.level = 1;
     PP.game.n = n;
@@ -21,7 +21,7 @@ var PP = {
 
   playGame : function()
   {
-    PP.display.clear();  
+    PP.display.clear();
     ROT.RNG.setSeed( PP.game.seed * PP.game.level );
     PP.map = new ROT.Map.Uniform( PP.width , PP.height , { roomDugPercentage : 0.95  } );
     PP.tiles = PP.game.tiles || [];
@@ -73,7 +73,7 @@ var PP = {
         radiusWidth: container.clientWidth / PP.width * PP.radius,
         radiusHeight: container.clientHeight / PP.height * PP.radius,
         container
-      }
+      };
     }
     //We want to make sure that the player plus the fov around the player is visible,
     let playerX = PP.scrollInfo.cellWidth * PP.player.col,
@@ -87,16 +87,16 @@ var PP = {
         deltaX,
         ratioY = PP.player.row/PP.height;
 
-    if(topY < 0 && !(bottomY>0))
+    if(topY < 0 && bottomY <= 0)
       deltaY = topY;
-    else if(bottomY > 0 && !(topY<0))
+    else if(bottomY > 0 && topY >= 0)
       deltaY = bottomY;
-    else if( topY < 0 && bottomY > 0 )
+    else if( topY < 0 && bottomY > 0)
       deltaY = (topY+bottomY)/2;
 
-    if(leftX < 0 && !(rightX>0))
+    if(leftX < 0 && rightX <=0)
       deltaX = leftX;
-    else if(rightX > 0 && !(leftX<0))
+    else if(rightX > 0 && leftX >= 0)
       deltaX = rightX;
     else if( leftX < 0 && rightX > 0 )
       deltaX = (leftX+rightX)/2;
@@ -138,4 +138,4 @@ var PP = {
     }
     PP.place(PP.player);
   }
-}
+};

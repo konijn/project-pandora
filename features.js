@@ -1,11 +1,11 @@
-//Dungeon Features    
+//Dungeon Features
 
 const PASSES_LIGHT = true,
       BLOCKS_LIGHT = false,
       LIKE_FLOOR = 0,
       LIKE_WALLS = 1;
 
-features = 
+features =
 {
   length: 0,
   Feature : function(bag)
@@ -16,14 +16,14 @@ features =
   {
     color = Color.map(color);
     this[c] = this[this.length] = new this.Feature({c, color, passesLight, walkable, description,id:this.length++});
-    return this; 
+    return this;
   },
   init : function()
   {
     this.Feature.prototype.dump = function()
     {
       return this.char & ' ' & this.color & ' ' & this.description;
-    }
+    };
     return this;
   }
 }.init()
@@ -39,7 +39,7 @@ features =
 .addBase(":" , "w" , BLOCKS_LIGHT, LIKE_WALLS, "Rubble")
 .addBase("$" , "g" , PASSES_LIGHT, LIKE_FLOOR, "Treasure")
 .addBase("%" , "o" , BLOCKS_LIGHT, LIKE_WALLS, "Vein")
-.addBase("`" , "w" , PASSES_LIGHT, LIKE_FLOOR, "Portal")
+.addBase("`" , "w" , PASSES_LIGHT, LIKE_FLOOR, "Portal");
 /*
 .addBase("1" , "w" , "General store")
 .addBase("2" , "w" , "Armory")

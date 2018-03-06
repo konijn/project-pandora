@@ -19,8 +19,7 @@ PP.mouse = {
       PP.mouse.listening = true;
     }
   }
-
-}
+};
 
 
 

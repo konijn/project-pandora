@@ -1,6 +1,6 @@
 
 var Color = {
-  data : { 
+  data : {
     b: '#0000ff', /*dark blue*/
     g: '#008000', /*green*/
     c: '#008b8b', /*blue-green*/
@@ -20,4 +20,4 @@ var Color = {
   map: function colorMap(oneCharColor){
     return this.data[oneCharColor];
   }
-}
+};

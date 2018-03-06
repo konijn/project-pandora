@@ -10,11 +10,11 @@ PP.save = {
       var s = localStorage[ PP.save.key( i ) ];
       if(!s)
       {
-        list.push( (i+1) + ") New Game")
+        list.push( (i+1) + ") New Game");
       }
       else
       {
-        list.push( (i+1) + ") " + JSON.parse( s ).description )
+        list.push( (i+1) + ") " + JSON.parse( s ).description );
       }
     }
   return list;
@@ -27,18 +27,18 @@ PP.save = {
     PP.game.tiles = PP.tiles;
     PP.game.player = PP.player;
     s = JSON.stringify( PP.game );
-    localStorage[ PP.save.key( PP.game.n -  1 ) ] = s;  
+    localStorage[ PP.save.key( PP.game.n -  1 ) ] = s;
   },
   //Logic for save game naming is centralized here
   key : function( n )
   {
-    return "save" + n; 
+    return "save" + n;
   },
   //We are not falling again in backwards compatible savegames for throw-away projects
   clear: function saveClear(){
     (5).loop(i => localStorage.removeItem(PP.save.key(i)));
   }
-}
+};
 
 //Load a game, or start a game
 //This is expected to be called by a key handler, by the way ;)
@@ -64,4 +64,4 @@ PP.load = function load( code , char , vk )
     Object.assign(PP.player, PP.game.player);
     PP.playGame();
   }
-}
+};

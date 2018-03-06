@@ -1,4 +1,4 @@
-PP.kb = { 
+PP.kb = {
   
   listening : false,
 
@@ -6,15 +6,15 @@ PP.kb = {
   {
     if( !PP.kb.listening )
     {
-      document.addEventListener("keydown", function(e) 
+      document.addEventListener("keydown", function(e)
       {
         var code = e.keyCode;
         var vk = "?"; /* find the corresponding constant */
         e.stopPropagation();
         e.preventDefault();
-        for (var name in ROT) 
+        for (var name in ROT)
         {
-          if (ROT[name] == code && name.indexOf("VK_") == 0) { vk = name; }
+          if (ROT[name] == code && name.indexOf("VK_") === 0) { vk = name; }
         }
         log(DEBUG, "Keydown: code is " + code + "(  " + String.fromCharCode(code) + "  ) , (" + vk + ")" );
         if(!PP.controller.handled(code, String.fromCharCode(code), vk, e) && PP.kb.next)
@@ -25,4 +25,4 @@ PP.kb = {
       PP.kb.listening = true;
     }
   }
-}
+};
