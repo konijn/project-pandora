@@ -25,6 +25,7 @@ PP.save = {
   store : function store()
   {
     PP.game.tiles = PP.tiles;
+    PP.game.player = PP.player;
     s = JSON.stringify( PP.game );
     localStorage[ PP.save.key( PP.game.n -  1 ) ] = s;  
   },
@@ -60,6 +61,7 @@ PP.load = function load( code , char , vk )
   else
   {
     PP.game = JSON.parse( s );
+    Object.assign(PP.player, PP.game.player);
     PP.playGame();
   }
 }

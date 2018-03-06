@@ -1,7 +1,6 @@
 PP.controller = {
 
   handled: function handled(code, codeString, vk, e){
-    log(DEBUG, code, codeString, vk,e);
 
     if(codeString == 'S' && e.ctrlKey){
       PP.save.store(); 

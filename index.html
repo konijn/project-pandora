@@ -12,6 +12,7 @@
       <script src="features.js"></script>
       <script src="PP.js"></script>
       <script src="player.js"></script>
+      <script src="wizard.js"></script>
       <script src="controller.js"></script>
       <script src="saveload.js"></script>
       <script src="keyboard.js"></script>
@@ -29,7 +30,7 @@
           //Display
           if( !PP.display )
           {
-            PP.display = new ROT.Display({width:80, height:50});
+            PP.display = new ROT.Display({width:PP.width, height:PP.height});
             document.body.appendChild( PP.display.getContainer() );
           }
           //Keyboard & Mouse

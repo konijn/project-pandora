@@ -4,8 +4,9 @@
 "use strict"
 var PP = {
 
-  width: 80,
+  width: 250,
   height: 50,
+  radius: 15, //Visibility radius
 
   newGame : function(n)
   {
@@ -40,25 +41,71 @@ var PP = {
       let cell = PP.getCell(col, row);
       return cell?features[cell.type].passesLight:false;
     }
-    //Set fov
-    let fov = new ROT.FOV.PreciseShadowcasting(lightPasses);
-
-    fov.compute(PP.game.player.col , PP.game.player.row, 15, function(col, row, r, visibility) {
-      let cell = PP.tiles[row*PP.width+col],
-          feature = cell.visitor || features[cell.type];
-      //var color = (data[x+","+y] ? "#aa0": "#660");
-      //display.draw(x, y, ch, "#fff", color);
-      PP.display.draw( col , row , feature.c, feature.color );
-      cell.seen = true;
-    });
-
-    PP.map.create( function(col,row){
+    //Draw 1 cell if seen
+    function drawSeenCell(col, row){
       let cell = PP.tiles[row*PP.width+col],
           feature = cell.visitor || features[cell.type];
       if(cell.seen)
         PP.display.draw( col , row , feature.c, feature.color );
+    }
+    //Set fov
+    let fov = new ROT.FOV.PreciseShadowcasting(lightPasses);
+    //Draw fov
+    fov.compute(PP.player.col , PP.player.row, PP.radius, function(col, row, r, visibility) {
+      let cell = PP.tiles[row*PP.width+col],
+          feature = cell.visitor || features[cell.type];
+      PP.display.draw( col , row , feature.c, feature.color );
+      cell.seen = true;
     });
 
+    (PP.width).loop(col => (PP.height).loop(row => drawSeenCell(col,row)));
+
+    PP.scrollGame();
+  },
+
+  scrollGame : function scrollGame(){
+    //Cache some stuff
+    if(!PP.scrollInfo){
+      let container = PP.display.getContainer();
+      PP.scrollInfo = {
+        cellWidth: container.clientWidth / PP.width,
+        cellHeight: container.clientHeight / PP.height,
+        radiusWidth: container.clientWidth / PP.width * PP.radius,
+        radiusHeight: container.clientHeight / PP.height * PP.radius,
+        container
+      }
+    }
+    //We want to make sure that the player plus the fov around the player is visible,
+    let playerX = PP.scrollInfo.cellWidth * PP.player.col,
+        playerY = PP.scrollInfo.cellHeight * PP.player.row,
+        rect = PP.scrollInfo.container.getClientRects()[0],
+        topY = rect.y + playerY - Math.min(playerY, PP.scrollInfo.radiusHeight, document.documentElement.clientHeight/2),
+        bottomY = rect.y + playerY + Math.min(rect.height-playerY, PP.scrollInfo.radiusHeight,document.documentElement.clientHeight/2) - document.documentElement.clientHeight,
+        leftX = rect.x + playerX - Math.min(playerX, PP.scrollInfo.radiusWidth, document.documentElement.clientWidth/2),
+        rightX = rect.y + playerX + Math.min(rect.width-playerX, PP.scrollInfo.radiusWidth,document.documentElement.clientWidth/2) - document.documentElement.clientWidth,
+        deltaY,
+        deltaX,
+        ratioY = PP.player.row/PP.height;
+
+    if(topY < 0 && !(bottomY>0))
+      deltaY = topY;
+    else if(bottomY > 0 && !(topY<0))
+      deltaY = bottomY;
+    else if( topY < 0 && bottomY > 0 )
+      deltaY = (topY+bottomY)/2;
+
+    if(leftX < 0 && !(rightX>0))
+      deltaX = leftX;
+    else if(rightX > 0 && !(leftX<0))
+      deltaX = rightX;
+    else if( leftX < 0 && rightX > 0 )
+      deltaX = (leftX+rightX)/2;
+
+    if((topY+bottomY)/2 == deltaY)
+      console.log({rect, topY, bottomY,deltaY,ratioY});
+    if(deltaX || deltaY){
+      window.scrollBy(deltaX,deltaY);
+    }
   },
 
   place : function place(visitor){
@@ -83,12 +130,12 @@ var PP = {
   },
   
   scaffold: function scaffold(){
-    if(!PP.game.player){
+    if(PP.player.col === undefined){
       let spot = PP.tiles.filter(cell=>cell.type===0).random();
-      PP.game.player = PP.player.scaffold();
-      PP.game.player.col = spot.col;
-      PP.game.player.row = spot.row;
+      PP.player = PP.player.scaffold();
+      PP.player.col = spot.col;
+      PP.player.row = spot.row;
     }
-    PP.place(PP.game.player);
+    PP.place(PP.player);
   }
 }
