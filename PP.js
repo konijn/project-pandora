@@ -4,7 +4,7 @@
 "use strict";
 var PP = {
 
-  width: 80,
+  width: 160,
   height: 50,
   radius: 15, //Visibility radius
 
@@ -84,8 +84,7 @@ var PP = {
         leftX = rect.x + playerX - Math.min(playerX, PP.scrollInfo.radiusWidth, document.documentElement.clientWidth/2),
         rightX = rect.y + playerX + Math.min(rect.width-playerX, PP.scrollInfo.radiusWidth,document.documentElement.clientWidth/2) - document.documentElement.clientWidth,
         deltaY,
-        deltaX,
-        ratioY = PP.player.row/PP.height;
+        deltaX;
 
     if(topY < 0 && bottomY <= 0)
       deltaY = topY;
@@ -102,7 +101,7 @@ var PP = {
       deltaX = (leftX+rightX)/2;
 
     if((topY+bottomY)/2 == deltaY)
-      console.log({rect, topY, bottomY,deltaY,ratioY});
+      log(DEBUG, {rect, topY, bottomY,deltaY});
     if(deltaX || deltaY){
       window.scrollBy(deltaX,deltaY);
     }

@@ -4,22 +4,24 @@ PP.kb = {
 
   listen : function()
   {
+    //Create reverse lookup for performance
+    PP.kb.codes = {};
+    Object.keys(ROT).filter(key => !key.indexOf("VK_")).each(key => (PP.kb.codes[ROT[key]] = key));
     if( !PP.kb.listening )
     {
       document.addEventListener("keydown", function(e)
       {
-        var code = e.keyCode;
-        var vk = "?"; /* find the corresponding constant */
+        let arg = {code: e.keyCode, stringCode: String.fromCharCode(e.keyCode), c: e.key,e};
+        if(e.ctrlKey && e.shiftKey && e.key == 'i'){
+          return true;
+        }
         e.stopPropagation();
         e.preventDefault();
-        for (var name in ROT)
+        arg.vk = PP.kb.codes[arg.code] || '?';
+        log(DEBUG, arg);
+        if(!PP.controller.handled(arg) && PP.kb.next)
         {
-          if (ROT[name] == code && name.indexOf("VK_") === 0) { vk = name; }
-        }
-        log(DEBUG, "Keydown: code is " + code + "(  " + String.fromCharCode(code) + "  ) , (" + vk + ")" );
-        if(!PP.controller.handled(code, String.fromCharCode(code), vk, e) && PP.kb.next)
-        {
-          PP.kb.next(code, String.fromCharCode(code), vk, e);
+          PP.kb.next(arg);
         }
       });
       PP.kb.listening = true;

@@ -42,8 +42,9 @@ PP.save = {
 
 //Load a game, or start a game
 //This is expected to be called by a key handler, by the way ;)
-PP.load = function load( code , char , vk )
+PP.load = function load( arg )
 {
+  let vk = arg.vk;
   //Justified Paranoia
   if(!vk)
     return;

@@ -1,12 +1,14 @@
 PP.controller = {
 
-  handled: function handled(code, codeString, vk, e){
-
-    if(codeString == 'S' && e.ctrlKey){
+  handled: function handled(arg){
+    let stringCode = arg.stringCode,
+        e = arg.e;
+    
+    if(stringCode == 'S' && e.ctrlKey){
       PP.save.store();
       console.log('Game Saved');
     }
-    if(codeString == 'R' && e.ctrlKey){
+    if(stringCode == 'R' && e.ctrlKey){
       location.reload(true);
       console.log('Reloaded');
     }
