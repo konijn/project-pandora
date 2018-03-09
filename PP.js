@@ -1,3 +1,13 @@
+/**********************************************************************
+* All sources in Project Pandora are Copyright (c) by Tom J Demuyt    *
+* I, Tom J Demuyt, release all code and data under the terms of the   *
+* GNU General Public License (version 2), as well as under the tradi- *
+* tional Angband license. Distribution is allowed both under the terms*
+* of the GPL (version 2) or under the terms of the traditional Angband*
+* license.                                                            *
+*                                                                     *
+* Exception: ROT.js                                                   *
+**********************************************************************/
 //One global to rule them all
 //rot.js http://ondras.github.io/rot.js/doc/
 //
@@ -15,6 +25,7 @@ var PP = {
     PP.game.seed = Math.floor(Math.random()*100000000);
     PP.game.level = 1;
     PP.game.n = n;
+    PP.game.messages = [],
     PP.save.store();
     PP.playGame();
   },
@@ -23,13 +34,17 @@ var PP = {
   {
     PP.display.clear();
     ROT.RNG.setSeed(PP.game.seed * PP.game.level);
-    PP.map = new ROT.Map.Uniform(PP.width, PP.height, {roomDugPercentage: 0.95, timeLimit: PP.width*PP.height/2});
-    PP.tiles = PP.game.tiles || [];
-    PP.map.create(PP.scaffoldCell);
+    if(!PP.game.tiles){
+      PP.tiles = [];
+      PP.map = new ROT.Map.Uniform(PP.width, PP.height, {roomDugPercentage: 0.95, timeLimit: PP.width*PP.height/2});
+      PP.map.create(PP.setCell);
+      log(DEBUG, PP.map);
+      PP.rooms = PP.map.getRooms();
+      PP.corridors = PP.map.getCorridors();
+    }else{
+      PP.tiles = PP.game.tiles;
+    }
     PP.scaffold();
-    log(DEBUG, PP.map);
-    PP.rooms = PP.map.getRooms();
-    PP.corridors = PP.map.getCorridors();
     PP.drawGame();
     PP.kb.next = PP.player.control;
   },
@@ -61,6 +76,8 @@ var PP = {
     });
     //Center around the @
     PP.scrollGame();
+    //Once scrolled, place a message, if there is any
+    PP.drawTopText();
   },
 
   scrollGame : function scrollGame(){
@@ -107,13 +124,28 @@ var PP = {
     }
   },
 
+  drawTopText: function drawTopText(){
+    console.log('Draw top text');
+    if(PP.game.messages.length){
+      let rect = PP.scrollInfo.container.getClientRects()[0],
+          row = rect.top >= 0 ? 0 : Math.ceil(Math.abs( rect.top / PP.scrollInfo.cellHeight )),
+          col = rect.left >= 0 ? 0 : Math.ceil(Math.abs( rect.left / PP.scrollInfo.cellWidth )),
+          message = PP.game.messages.shift();
+          message += PP.game.messages.length ? " - more -" : "";
+      PP.display.drawText(col, row, message);
+    }
+  },
+
   place : function place(visitor){
     let cell = PP.getCell(visitor.col,visitor.row);
     cell.visitor = visitor;
     if(cell.items){
       visitor.items = listify(visitor.items);
-      while(cell.items.length && visitor.items.length < 26)
-        visitor.items.push(cell.items.pop());
+      while(cell.items.length && visitor.items.length < 26){
+        let item = cell.items.pop();
+        PP.game.messages.push(visitor.subject + ' picked up ' + PP.items.describe(item) + '.');
+        visitor.items.push(item);
+      }
       if(!cell.items.length){
         cell.items = null;
         cell.item = null;
