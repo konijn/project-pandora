@@ -12,13 +12,13 @@ PP.kb = {
       document.addEventListener("keydown", function(e)
       {
         let arg = {code: e.keyCode, stringCode: String.fromCharCode(e.keyCode), c: e.key,e};
-        if(e.ctrlKey && e.shiftKey && e.key == 'i'){
+        log(arg);
+        if(e.ctrlKey && e.shiftKey && e.key == 'I'){
           return true;
         }
         e.stopPropagation();
         e.preventDefault();
         arg.vk = PP.kb.codes[arg.code] || '?';
-        log(DEBUG, arg);
         if(!PP.controller.handled(arg) && PP.kb.next)
         {
           PP.kb.next(arg);
