@@ -164,5 +164,6 @@ function template(id, list){
 }
 
 function listify(o){
- return Array.isArray(o) ? o : [o];
+ return o === undefined ? [] :
+              Array.isArray(o) ? o : [o];
 }

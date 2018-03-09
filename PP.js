@@ -44,22 +44,22 @@ var PP = {
     //Draw 1 cell if seen
     function drawSeenCell(col, row){
       let cell = PP.tiles[row*PP.width+col],
-          feature = cell.visitor || features[cell.type];
+          feature = features[cell.type];
       if(cell.seen)
         PP.display.draw( col , row , feature.c, feature.color );
     }
-    //Set fov
+    //Draw seen cells
+    (PP.width).loop(col => (PP.height).loop(row => drawSeenCell(col,row)));
+    //Set fov, consider caching
     let fov = new ROT.FOV.PreciseShadowcasting(lightPasses);
     //Draw fov
     fov.compute(PP.player.col , PP.player.row, PP.radius, function(col, row, r, visibility) {
       let cell = PP.tiles[row*PP.width+col],
-          feature = cell.visitor || features[cell.type];
+          feature = cell.visitor || cell.item || features[cell.type];
       PP.display.draw( col , row , feature.c, feature.color );
       cell.seen = true;
     });
-
-    (PP.width).loop(col => (PP.height).loop(row => drawSeenCell(col,row)));
-
+    //Center around the @
     PP.scrollGame();
   },
 
@@ -108,7 +108,20 @@ var PP = {
   },
 
   place : function place(visitor){
-    PP.getCell(visitor.col,visitor.row).visitor = visitor;
+    let cell = PP.getCell(visitor.col,visitor.row);
+    cell.visitor = visitor;
+    if(cell.items){
+      visitor.items = listify(visitor.items);
+      while(cell.items.length && visitor.items.length < 26)
+        visitor.items.push(cell.items.pop());
+      if(!cell.items.length){
+        cell.items = null;
+        cell.item = null;
+      }else{
+        //Drop the remainder
+        PP.items.drop(visitor, cell.items);
+      }
+    }
   },
   
   remove: function remove(visitor){ //ANNOYANCE, delete should be a thing
@@ -117,6 +130,10 @@ var PP = {
   
   getCell: function getCell(col,row){
     return PP.tiles[row*PP.width+col];
+  },
+  
+  getVisitorCell: function getVisitorCell(visitor){
+    return PP.getCell(visitor.col, visitor.row);
   },
   
   setCell: function getCell(col, row, type){
