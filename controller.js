@@ -8,12 +8,12 @@ PP.controller = {
       PP.save.store();
       console.log('Game Saved');
     }
-    if(stringCode == 'R' && e.ctrlKey){
+    else if(stringCode == 'R' && e.ctrlKey){
       location.reload(true);
       console.log('Reloaded');
+    }else{
+      return false;
     }
-
-    return false;
   }
 
 };
