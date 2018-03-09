@@ -2,7 +2,7 @@
 
 PP.player = {
   scaffold: function scaffold(){
-    return Object.assign(PP.player,{c:'@', color:Color.map('W')});
+    return Object.assign(PP.player,{c:'@', color:Color.map('W'),subject:'You'});
   },
   control: function control(arg){
     let player = PP.player,
@@ -20,9 +20,7 @@ PP.player = {
             PP.player.tryMove(vk,['VK_NUMPAD7'], -1, -1) ||
             PP.player.tryMove(vk,['VK_NUMPAD9'], 1, -1);
 
-    if(dirty){
-      PP.drawGame();
-    }
+    return dirty;
   },
   tryMove: function tryMove(vk, vkeys, dCol, dRow){
     if(!vkeys.has(vk))
