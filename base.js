@@ -80,6 +80,10 @@ String.prototype.has = function StringHas(s){
   return !!~this.indexOf(s);
 };
 
+String.prototype.left = function StringLeft(n){
+  return this.substring(0,n);
+}
+
 String.prototype.template = function StringTemplate(list){
   return template(this,list);
 };
