@@ -4,8 +4,8 @@
 "use strict";
 var PP = {
 
-  width: 160,
-  height: 50,
+  width: 160,  //160
+  height: 50, //50
   radius: 15, //Visibility radius
 
   newGame : function(n)
@@ -22,8 +22,8 @@ var PP = {
   playGame : function()
   {
     PP.display.clear();
-    ROT.RNG.setSeed( PP.game.seed * PP.game.level );
-    PP.map = new ROT.Map.Uniform( PP.width , PP.height , { roomDugPercentage : 0.95  } );
+    ROT.RNG.setSeed(PP.game.seed * PP.game.level);
+    PP.map = new ROT.Map.Uniform(PP.width, PP.height, {roomDugPercentage: 0.95, timeLimit: PP.width*PP.height/2});
     PP.tiles = PP.game.tiles || [];
     PP.map.create(PP.scaffoldCell);
     PP.scaffold();
