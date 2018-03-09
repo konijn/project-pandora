@@ -37,9 +37,9 @@
           //Keyboard & Mouse
           PP.kb.listen();
           PP.mouse.listen();
-          PP.display.drawText( 5 ,  2 , "%c{red}Project Purgatory" );
+          PP.display.drawText( 5 ,  0 , "%c{red}Project Purgatory" );
           var list = PP.save.list();
-          list.forEach( function( v,i){ PP.display.drawText( 5 ,  10+i , v );  });
+          list.forEach((v,i) => PP.display.drawText(5, 5+i, v));
           setTimeout(e => window.scrollTo(0,0), 500);
           PP.kb.next = PP.load;
           console.log(DEBUG, PP.display);
