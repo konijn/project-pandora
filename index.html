@@ -12,18 +12,19 @@
       <script src="features.js"></script>
       <script src="PP.js"></script>
       <script src="player.js"></script>
+      <script src="items.js"></script>
       <script src="wizard.js"></script>
       <script src="controller.js"></script>
       <script src="saveload.js"></script>
       <script src="keyboard.js"></script>
       <script src="mouse.js"></script>
-      <script>      
+      <script>
         /* file:///C:/Users/konij/Documents/GitHub/project-pandora/index.html */
         //Are we ready for some ROT times ?
         if( !ROT.isSupported() )
           alert( "This game will not run on your 'browser'" );
         else
-          start();
+          document.addEventListener("DOMContentLoaded", start);
           
         function start()
         {
@@ -39,6 +40,7 @@
           PP.display.drawText( 5 ,  2 , "%c{red}Project Purgatory" );
           var list = PP.save.list();
           list.forEach( function( v,i){ PP.display.drawText( 5 ,  10+i , v );  });
+          setTimeout(e => window.scrollTo(0,0), 500);
           PP.kb.next = PP.load;
           console.log(DEBUG, PP.display);
         }
