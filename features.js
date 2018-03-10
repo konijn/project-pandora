@@ -39,7 +39,7 @@ features =
 .addBase(":" , "w" , BLOCKS_LIGHT, LIKE_WALLS, "Rubble")
 .addBase("$" , "g" , PASSES_LIGHT, LIKE_FLOOR, "Treasure")
 .addBase("%" , "o" , BLOCKS_LIGHT, LIKE_WALLS, "Vein")
-.addBase("`" , "w" , PASSES_LIGHT, LIKE_FLOOR, "Portal");
+.addBase("ᗝ" , "C" , PASSES_LIGHT, LIKE_FLOOR, "Portal");
 /*
 .addBase("1" , "w" , "General store")
 .addBase("2" , "w" , "Armory")
