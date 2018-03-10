@@ -9,8 +9,8 @@ PP.wizard = {
   test: function test(){
     PP.items.drop(PP.player, PP.items.random());
   },
-  indentify: function identify(){
-    PP.items.each( PP.items.identify );
+  identify: function identify(){
+    PP.player.items.each(item => PP.items.identify(item));
   }
   
 
