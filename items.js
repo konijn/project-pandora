@@ -12,12 +12,21 @@ PP.items = {
     Object.assign(PP.getVisitorCell(visitor), {items, item: items[0]});
   },
   describe: function itemsDescribe(item){
-    return "a potion";
+    return "potion";
+  },
+  athe: function itemsAthe(item){
+    if(item.count){
+      return item.count+'';
+    }else if(item.unique){
+      return 'the';
+    }else{
+      return 'a';
+    }
   },
   identify: function itemIdentify(item){
-    if(item.identified){
+    if(!item.identified){
       item.identified = true;
-      PP.game.messages.pop('You identified '+
+      PP.game.messages.push('You identified ' + PP.items.athe(item) + ' ' + PP.items.describe(item));
     }
   }
   
