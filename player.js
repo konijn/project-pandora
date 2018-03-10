@@ -2,7 +2,7 @@
 
 PP.player = {
   scaffold: function scaffold(){
-    return Object.assign(PP.player,{c:'@', color:Color.map('W'),subject:'You'});
+    return Object.assign(PP.player,{c:'@', color:Color.map('W'),subject:'You',items:[],isPlayer:true});
   },
   control: function control(arg){
     let player = PP.player,
