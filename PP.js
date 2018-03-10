@@ -14,8 +14,8 @@
 "use strict";
 var PP = {
 
-  width: 160,  //160
-  height: 50, //50
+  width: 150,  //160
+  height: 60, //50
   radius: 15, //Visibility radius
 
   newGame : function(n)
@@ -41,6 +41,8 @@ var PP = {
       log(DEBUG, PP.map);
       PP.rooms = PP.map.getRooms();
       PP.corridors = PP.map.getCorridors();
+      //console.log(PP.corridors);
+      features.portals.place();
     }else{
       PP.tiles = PP.game.tiles;
     }
@@ -123,22 +125,34 @@ var PP = {
       window.scrollBy(deltaX,deltaY);
     }
   },
+  
+  getTopLeft: function(){
+    let rect = PP.scrollInfo.container.getClientRects()[0],
+        row = rect.top >= 0 ? 0 : Math.ceil(Math.abs( rect.top / PP.scrollInfo.cellHeight )),
+        col = rect.left >= 0 ? 0 : Math.ceil(Math.abs( rect.left / PP.scrollInfo.cellWidth ));
+    return {col, row};
+  },
 
   drawTopText: function drawTopText(){
     console.log('Draw top text');
     if(PP.game.messages.length){
-      let rect = PP.scrollInfo.container.getClientRects()[0],
-          row = rect.top >= 0 ? 0 : Math.ceil(Math.abs( rect.top / PP.scrollInfo.cellHeight )),
-          col = rect.left >= 0 ? 0 : Math.ceil(Math.abs( rect.left / PP.scrollInfo.cellWidth )),
-          message = PP.game.messages.shift();
+      let topLeft = PP.getTopLeft(),
+          message = PP.game.messages.shift(),
+          count = 0;
+          while(PP.game.messages[0] == message){
+            count++;
+            PP.game.messages.shift();
+          }
+          message += count ? " (" + count++  +  " times)" : "";
           message += PP.game.messages.length ? " - more -" : "";
-      PP.display.drawText(col, row, message);
+      PP.display.drawText(topLeft.col, topLeft.row, message);
     }
   },
 
-  place : function place(visitor){
+  place : function place(visitor, portaled){
     let cell = PP.getCell(visitor.col,visitor.row);
     cell.visitor = visitor;
+    //Is there stuff to pick up?
     if(cell.items){
       visitor.items = listify(visitor.items);
       while(cell.items.length && visitor.items.length < 26){
@@ -153,6 +167,14 @@ var PP = {
         //Drop the remainder
         PP.items.drop(visitor, cell.items);
       }
+    }
+    //Is there a portal
+    if(cell.type=='ᗝ' && !portaled){
+        PP.game.messages.push(visitor.subject + ' activate' + (visitor.isPlayer?" ":"s ")  + 'the portal.');
+        PP.remove(visitor);
+        visitor.col = cell.target.col;
+        visitor.row = cell.target.row;
+        return PP.place(visitor, true);
     }
   },
   
